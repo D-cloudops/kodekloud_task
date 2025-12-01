@@ -1,0 +1,3 @@
+KKE_ENVIRONMENT="dev"
+KKE_KINESIS_STREAM_NAME="nautilus-dev-stream"
+KKE_S3_BUCKET_NAME="nautilus-dev-16820"
