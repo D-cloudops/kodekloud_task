@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-xfusion
+spec:
+  containers:
+  - name: secret-container-xfusion
+    image: ubuntu:latest
+    command: ['/bin/sh', '-c', 'sleep 36000']
+    volumeMounts:
+    - name: secret-vol
+      mountPath: /opt/games
+  volumes:
+    - name: secret-vol
+      secret:
+        secretName: ecommerce
