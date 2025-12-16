@@ -1,0 +1,20 @@
+pipeline {
+    agent {
+        label 'storage_server'
+    }
+    parameters {
+        string(name:'PACKAGE', description: 'Enter the package to be installed')
+    }
+    stages {
+        stage('Installing Package') {
+            steps {
+               echo "Installing ${params.PACKAGE}"
+                withCredentials([string(credentialsId: 'storage_passwd', variable: 'SUDO_pw')])
+               {
+               sh "echo '${SUDO_pw}' | sudo -S yum install ${params.PACKAGE} -y"
+               echo "${params.PACKAGE} is installed"
+            }
+        }
+        }
+    }
+}
