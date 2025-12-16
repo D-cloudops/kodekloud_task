@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+    parameters{
+        string(name: 'Stage', defaultValue: 'Build', description: 'Enter the stage')
+        choice(name: 'env', choices: ['Development', 'Staging', 'Production'])
+    }
+    stages{
+        stage("echoing"){
+            steps{
+                echo "The stage value is ${params.Stage}"
+                echo "The env value is ${params.env}"
+            }
+        }
+    }
+}
