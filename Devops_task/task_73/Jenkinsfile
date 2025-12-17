@@ -1,0 +1,23 @@
+pipeline{
+    agent {
+        label  'app_03'
+    }
+    environment {
+        access_logs = "/var/log/httpd/access_log"
+        error_logs = "/var/log/httpd/error_log"
+    }
+    stages{
+        stage("copying log"){
+            steps {
+                    withCredentials([string(credentialsId:'storage_secret', variable:'storage_pwd')])
+                    {
+                        sh '''
+                        echo "${storage_pwd}" 
+                        sshpass -p "${storage_pwd}" scp -o StrictHostKeyChecking=no ${access_logs}  natasha@ststor01:/usr/src/itadmin/
+                        sshpass -p "${storage_pwd}" scp -o StrictHostKeyChecking=no ${error_logs}  natasha@ststor01:/usr/src/itadmin/
+                        '''
+                    }
+                }
+                }
+            }
+        }
