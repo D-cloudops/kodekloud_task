@@ -1,0 +1,27 @@
+pipeline{
+    agent {
+        label 'db_server'
+    }
+    stages{
+        stage(db_backup) {
+            steps {
+                withCredentials([string(credentialsId: 'database_passwd', variable: 'db_passwd')])
+                {
+                    sh '''
+                    echo ${db_passwd} | mysqldump -u kodekloud_roy -p kodekloud_db01 >> db_$(date +%F).sql
+                    '''
+                }
+            }
+        }
+        stage(copy_backup){
+            steps {
+                withCredentials([string(credentialsId: 'backup_server', variable: 'backup_passwd')])
+                {
+                    sh '''
+                    sshpass -p ${backup_passwd} scp db_*  clint@stbkp01:/home/clint/db_backups/
+                    '''
+                }
+            }
+        }
+    }
+}
