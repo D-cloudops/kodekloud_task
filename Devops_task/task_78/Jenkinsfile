@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        label 'ststor01'
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Branch to be Deployed')
+    }
+    stages{
+        stage('Deploy'){
+            steps{
+                    dir('/var/www/html'){
+                        sh '''
+                        git checkout ${BRANCH}
+                        git pull
+                        echo "Code of ${BRANCH} is deployed"
+                        '''
+                }
+            }
+        }
+    }
+}
