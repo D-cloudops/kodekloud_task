@@ -1,0 +1,26 @@
+pipeline {
+    agent {
+        label 'ststor01'
+    }
+    stages{
+        stage('Deploy') {
+            steps{
+             dir('/var/www/html'){
+                sh '''
+                git pull
+                echo "Code deployed"
+                '''
+            }
+        }
+    }
+    stage('Test'){
+        steps{
+          script {
+            sh '''
+            curl -f http://stlb01:8091
+            '''
+        }
+    }
+}
+}
+}
