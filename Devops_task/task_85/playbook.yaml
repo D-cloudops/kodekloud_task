@@ -1,0 +1,11 @@
+- name: create a blank file
+  hosts: all
+  become: true
+  tasks:
+   - name: creating file
+     file:
+      path: /opt/data.txt
+      mode: '0755'
+      state: touch
+      owner: "{{ansible_user}}"
+      group: "{{ansible_user}}"
