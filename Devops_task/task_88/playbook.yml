@@ -1,0 +1,8 @@
+- name: install samba
+  hosts: all
+  become: true
+  tasks:
+  - name: Install samba
+    yum:
+     name: samba
+     state: present
