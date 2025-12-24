@@ -1,0 +1,33 @@
+- name: creating file
+  hosts: all
+  become: true
+  vars:
+   acltasks:
+    - host: stapp01
+      file_name: blog.txt
+      file_permission: r
+      etype: group
+    - host: stapp02
+      file_name: story.txt
+      file_permission: rw
+      etype: user
+    - host: stapp03
+      file_name: media.txt
+      file_permission: rw
+      etype: group
+  tasks:
+  - name: creating file
+    file:
+     path: /opt/data/{{ item.file_name }}
+     state: touch
+    loop: "{{ acltasks }}"
+    when: inventory_hostname == item.host
+  - name: ACL assigning
+    acl:
+     path: /opt/data/{{ item.file_name }}
+     permissions: "{{ item.file_permission }}"
+     etype: "{{ item.etype }}"
+     entity: "{{ ansible_ssh_user }}"
+     state: present
+    loop: "{{ acltasks }}"
+    when: inventory_hostname == item.host

@@ -1,0 +1,23 @@
+- name: static page
+  hosts: all
+  become: true
+  tasks:
+  - name: Install httpd
+    yum:
+     name: httpd
+     state: present
+  - name: adding content
+    blockinfile:
+     path: /var/www/html/index.html
+     block: |
+       Welcome to XfusionCorp!
+       This is  Nautilus sample file, created using Ansible!
+       Please do not modify this file manually!
+     owner: apache
+     group: apache
+     mode: 0655
+     create: true
+  - name: Starting httpd
+    service:
+      name: httpd
+      state: started
