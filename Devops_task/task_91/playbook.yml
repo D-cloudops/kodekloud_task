@@ -1,0 +1,27 @@
+- name: Installing apache
+  hosts: all
+  become: true
+  tasks:
+  - name: installing httpd
+    yum:
+     name: httpd
+     state: installed
+  - name: starting httpd service
+    service:
+     name: httpd
+     state: started
+     enabled: yes
+  - name: adding content
+    lineinfile:
+      path: /var/www/html/index.html
+      line: This is a Nautilus sample file, created using Ansible!
+  - name: using lineinfile
+    lineinfile:
+      path: /var/www/html/index.html
+      regexp: '^This is KodeKloud Ansible Lab !'
+      insertbefore: BOF
+      line: Welcome to Nautilus Group!
+      state: present
+      owner: apache
+      group: apache
+      mode: 0744

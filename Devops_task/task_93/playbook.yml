@@ -1,0 +1,28 @@
+- name: Ansible conditional
+  hosts: all
+  become: true
+  tasks:
+  - name: copy blog.txt
+    copy:
+     src: /usr/src/finance/blog.txt
+     dest: /opt/finance
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0644
+    when: inventory_hostname == "stapp01"
+  - name: copy story.txt
+    copy:
+     src: /usr/src/finance/story.txt
+     dest: /opt/finance
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0644
+    when: inventory_hostname == "stapp02"
+  - name: copymedia.txt
+    copy:
+     src: /usr/src/finance/media.txt
+     dest: /opt/finance
+     owner: "{{ ansible_user }}"
+     group: "{{ ansible_user }}"
+     mode: 0644
+    when: inventory_hostname == "stapp03"
