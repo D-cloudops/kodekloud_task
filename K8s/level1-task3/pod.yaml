@@ -1,0 +1,10 @@
+#For creating namespace use- kubectl create ns dev
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-nginx-pod
+  namespace: dev
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
