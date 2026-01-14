@@ -1,0 +1,8 @@
+# check the rollout history
+k rollout history deploy/nginx-deployment
+
+# to rollout to previous version
+k rollout undo deploy/nginx-deployment
+
+# to rollout to specific version 
+k rollout undo deploy/<deployment-name> --to-revision=<revision-number>
