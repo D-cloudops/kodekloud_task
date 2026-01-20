@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: httpd-deploy
+ namespace: nautilus
+ labels:
+   test: update
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+    test: update
+ template:
+  metadata:
+     labels:
+       test: update
+  spec:
+    containers:
+    - name: httpd
+      image: httpd:2.4.28
+ strategy:
+  type: RollingUpdate
+  rollingUpdate:
+   maxUnavailable: 2
+   maxSurge: 1
+
+## K set image -n nautilus deploy/httpd-deploy httpd=httpd:2.4.28
+## k rollout undo -n nautilus deploy/https-deploy
