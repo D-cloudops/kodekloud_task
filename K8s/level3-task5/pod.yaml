@@ -1,0 +1,19 @@
+##to Generate secret
+# k create secret generic ecommerce --from-file=password=/opt/ecommerce.txt
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: secret-nautilus
+spec:
+ containers:
+ - name: secret-container-nautilus
+   image: debian:latest
+   command: ['sleep', 'infinity']
+   volumeMounts:
+   - name: secret-mount
+     mountPath: /opt/games
+ volumes:
+  - name: secret-mount
+    secret:
+     secretName: ecommerce
