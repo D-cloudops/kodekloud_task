@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+   app: drupal
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+    app: drupal
+ template:
+  metadata:
+   labels:
+    app: drupal
+  spec:
+   containers:
+   - name: drupal-container
+     image: drupal:8.6
+     env:
+     - name: MYSQL_HOST
+       valueFrom:
+        secretKeyRef:
+          name: mysql-host
+          key: host
